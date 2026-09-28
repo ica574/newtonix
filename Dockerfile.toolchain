@@ -1,0 +1,14 @@
+FROM debian:bookworm-slim
+
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends \
+        binutils-i686-linux-gnu \
+        gcc-i686-linux-gnu \
+        grub-common \
+        grub-pc-bin \
+        make \
+        qemu-system-x86 \
+        xorriso \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /work

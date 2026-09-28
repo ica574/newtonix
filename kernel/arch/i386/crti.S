@@ -13,3 +13,5 @@ _fini:
 	push %ebp
 	movl %esp, %ebp
 	/* gcc will nicely put the contents of crtbegin.o's .fini section here. */
+
+.section .note.GNU-stack,"",@progbits

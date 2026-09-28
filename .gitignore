@@ -1,3 +1,4 @@
 *.iso
+build
 isodir
 sysroot

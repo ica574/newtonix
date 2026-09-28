@@ -16,7 +16,21 @@ It is also important to have ```grub-pc-bin```, especially if you have a *UEFI* 
 
 ### Building and Running
 
-Once all prerequisites are satisfied, clone this repository locally by invoking ```git clone <GitHub URL>```, and running the provided scripts. Compile *Newtonix* with ```./build.sh```, generate an *ISO* image with ```./iso.sh```, and boot into it with ```./qemu.sh```.
+The simplest local workflow requires only Docker:
+
+```sh
+make setup   # Build the reusable toolchain container once
+make build   # Compile the kernel and create newtonix.iso
+make run     # Boot with serial output; press Ctrl-C to stop
+make run-vga # Optional VGA/curses display
+make clean
+```
+
+`make run` prints kernel serial output in the terminal. Press `Ctrl-C` to stop
+QEMU. `make run-vga` is available for inspecting the VGA console, but its
+terminal key handling varies between platforms.
+With a native i686 cross-compiler, GRUB, xorriso, and QEMU installation, the
+same build graph can be used directly with `make newtonix.iso`.
 
 ## Objectives
 

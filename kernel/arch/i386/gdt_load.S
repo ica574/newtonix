@@ -24,3 +24,5 @@ gdt_load:
 	movl %ebp, %esp
 	popl %ebp
 	ret
+
+.section .note.GNU-stack,"",@progbits

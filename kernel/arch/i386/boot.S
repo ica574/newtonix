@@ -6,7 +6,7 @@
 .set CHECKSUM, -(MAGIC + FLAGS) # checksum of above, to prove we are multiboot
 
 # Declare a header as in the Multiboot Standard.
-.section .multiboot
+.section .multiboot,"a"
 .align 4
 .long MAGIC
 .long FLAGS
@@ -37,3 +37,5 @@ _start:
 1:	hlt
 	jmp 1b
 .size _start, . - _start
+
+.section .note.GNU-stack,"",@progbits

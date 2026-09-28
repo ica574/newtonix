@@ -1,0 +1,8 @@
+.git
+isodir
+newtonix.iso
+sysroot
+*.o
+*.d
+*.a
+*.kernel

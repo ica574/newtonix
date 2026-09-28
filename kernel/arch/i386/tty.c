@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include <kernel/tty.h>
+#include <kernel/serial.h>
 
 #include "vga.h"
 
@@ -18,6 +19,7 @@ static uint16_t *terminal_buffer;
 
 void terminal_init(void)
 {
+	serial_init();
 	terminal_row = 0;
 	terminal_column = 0;
 	terminal_color = vga_entry_color(VGA_COLOR_GREEN, VGA_COLOR_BLACK);
@@ -45,6 +47,7 @@ void terminal_putentryat(unsigned char c, uint8_t color, size_t x, size_t y)
 
 void terminal_putchar(char c)
 {
+	serial_putchar(c);
 	if (c == '\n')
 	{
 		terminal_row++;
