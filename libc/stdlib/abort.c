@@ -1,15 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-__attribute__((__noreturn__))
-void abort(void) {
+// Include kernel panic headers if in the kernel
 #if defined(__is_libk)
-	// TODO: Add proper kernel panic.
-	printf("kernel: panic: abort()\n");
-#else
-	// TODO: Abnormally terminate the process as if by SIGABRT.
-	printf("abort()\n");
+#include <kernel/panic.h>
 #endif
-	while (1) { }
-	__builtin_unreachable();
+
+__attribute__((__noreturn__))
+void abort(void) 
+{
+#if defined(__is_libk)
+    // A kernel abort is fatal to the entire system
+    kernel_panic("abort()");
+#else
+    // Future userspace abort function
+    // TODO: Abnormally terminate the process as if by SIGABRT.
+    printf("abort()\n");
+    for (;;)
+    {
+    }
+#endif
 }

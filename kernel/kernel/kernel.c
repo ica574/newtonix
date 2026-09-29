@@ -8,8 +8,8 @@ void kernel_main(void)
 {
 	gdt_init(); // Initialises the GDT
 	idt_init(); // Initialises the IDT
-	// TODO: Introduce interrupt handling
-	terminal_init(); // Initialises the terminal emulator
+
+    terminal_init(); // Initialises the terminal emulator
 
 	printf("Welcome to Newtonix!\n");
 }
