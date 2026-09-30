@@ -5,6 +5,7 @@
 #include <stdint.h>
 
 #include <idt/idt.h>
+#include <gdt/gdt.h>
 
 // Helper macros
 #define FLAG_SET(x, flag) x |= (flag)
@@ -67,7 +68,11 @@ void idt_disablegate(int interrupt)
     FLAG_UNSET(system_idt[interrupt].Flags, IDT_FLAG_PRESENT);
 }
 
+extern void breakpoint_isr(void);
+
 void idt_init()
 {
+    idt_setgate(3, (void *)breakpoint_isr, GDT_CODE_SEGMENT, IDT_FLAG_GATE_32BIT_INT | IDT_FLAG_RING0);
+    idt_enablegate(3);
     idt_load(&system_idt_descriptor);
 }
