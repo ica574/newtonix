@@ -1,4 +1,4 @@
-# Loads the GDT into the S registers
+# Loads the GDT and reloads the segment registers
 
 .globl gdt_load # Makes the gdt_load function visible to C
 gdt_load:
@@ -8,10 +8,11 @@ gdt_load:
 	movl 8(%ebp), %eax
 	lgdt (%eax)
 
-	movl 12(%ebp), %eax
+	movzwl 12(%ebp), %eax
 	pushl %eax
-	call .reload_cs
-	ret
+
+	pushl $.reload_cs
+	lret
 
 .reload_cs:
 	movw 16(%ebp), %ax
