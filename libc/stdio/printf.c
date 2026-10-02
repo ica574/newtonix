@@ -61,7 +61,37 @@ int printf(const char* restrict format, ...) {
 			if (!print(str, len))
 				return -1;
 			written += len;
-		} else {
+		} else if (*format == 'x') {
+            format++;
+            unsigned int value = va_arg(parameters, unsigned int);
+
+            const char digits[] = "0123456789abcdef";
+
+            char buffer[sizeof(unsigned int) * 2];
+
+            size_t length = 0;
+
+            do {
+                unsigned int index = value % 16;
+                char c = digits[index];
+                length++;
+                buffer[sizeof(buffer) - length] = c;
+                value /= 16;
+            } while (value != 0);
+
+            if (maxrem < length) {
+                // TODO: Set errno to EOVERFLOW.
+                return -1;
+            }
+
+            const char *begin = buffer + sizeof(buffer) - length;
+
+            if (!print(begin, length))
+                return -1;
+
+            written += length;
+
+        } else {
 			format = format_begun_at;
 			size_t len = strlen(format);
 			if (maxrem < len) {
