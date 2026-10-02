@@ -5,6 +5,8 @@
 
 breakpoint_isr:
     cld # Clear direction flag
+    pushl $0
+    pushl $3
     pushal
 
     movl %esp, %eax
@@ -17,6 +19,7 @@ breakpoint_isr:
 
     movl (%esp), %esp
     popal
+    addl $8, %esp
     iret
 
 .size breakpoint_isr, . - breakpoint_isr
