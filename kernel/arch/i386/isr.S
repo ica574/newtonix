@@ -10,6 +10,9 @@ isr_\vector:
     jmp isr_common
 .endm
 
+ISR_NO_ERROR 0
+ISR_NO_ERROR 1
+ISR_NO_ERROR 2
 ISR_NO_ERROR 3
 
 isr_common:

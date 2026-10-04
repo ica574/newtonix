@@ -63,16 +63,34 @@ void idt_enablegate(int interrupt)
     FLAG_SET(system_idt[interrupt].Flags, IDT_FLAG_PRESENT);
 }
 
+static void idt_install_exception(int vector, void *handler)
+{
+    idt_setgate(
+            vector,
+            handler,
+            GDT_CODE_SEGMENT,
+            IDT_FLAG_GATE_32BIT_INT | IDT_FLAG_RING0
+    );
+
+    idt_enablegate(vector);
+}
+
 void idt_disablegate(int interrupt)
 {
     FLAG_UNSET(system_idt[interrupt].Flags, IDT_FLAG_PRESENT);
 }
 
+extern void isr_0(void);
+extern void isr_1(void);
+extern void isr_2(void);
 extern void isr_3(void);
 
 void idt_init()
 {
-    idt_setgate(3, (void *)isr_3, GDT_CODE_SEGMENT, IDT_FLAG_GATE_32BIT_INT | IDT_FLAG_RING0);
-    idt_enablegate(3);
+    idt_install_exception(0, (void *)isr_0);
+    idt_install_exception(1, (void *)isr_1);
+    idt_install_exception(2, (void *)isr_2);
+    idt_install_exception(3, (void *)isr_3);
+
     idt_load(&system_idt_descriptor);
 }
