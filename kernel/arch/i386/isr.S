@@ -1,26 +1,39 @@
 .section .text
-.extern breakpoint_exception_handler
-.global breakpoint_isr
-.type breakpoint_isr, @function
+.extern exception_handler
 
-breakpoint_isr:
-    cld # Clear direction flag
-    pushl $0
-    pushl $3
+.macro ISR_NO_ERROR vector
+.global isr_\vector
+.type isr_\vector, @function
+isr_\vector:
+    pushl $0           # Synthetic error code
+    pushl $\vector     # Exception vector
+    jmp isr_common
+.endm
+
+ISR_NO_ERROR 3
+
+isr_common:
+    cld
     pushal
 
+    # Save the address of the interrupt frame.
     movl %esp, %eax
-    andl $-16, %esp # Align stack by rounding down to 16-byte boundary
 
+    # Create an aligned stack for the C function call.
+    andl $-16, %esp
     subl $12, %esp
     pushl %eax
 
-    call breakpoint_exception_handler # Call C handler
+    call exception_handler
 
+    # Restore the original interrupt stack.
     movl (%esp), %esp
     popal
+
+    # Remove vector and error code.
     addl $8, %esp
+
+    # Restore EIP, CS, and EFLAGS.
     iret
 
-.size breakpoint_isr, . - breakpoint_isr
 .section .note.GNU-stack,"",@progbits

@@ -4,7 +4,7 @@
 #include <idt/interrupt.h>
 
 __attribute__((__noreturn__))
-void breakpoint_exception_handler(const interrupt_frame *frame)
+void exception_handler(const interrupt_frame *frame)
 {
     (void)frame;
 
