@@ -80,45 +80,18 @@ void idt_disablegate(int interrupt)
     FLAG_UNSET(system_idt[interrupt].Flags, IDT_FLAG_PRESENT);
 }
 
-extern void isr_0(void);
-extern void isr_1(void);
-extern void isr_2(void);
-extern void isr_3(void);
-extern void isr_4(void);
-extern void isr_5(void);
-extern void isr_6(void);
-extern void isr_7(void);
-extern void isr_8(void);
-extern void isr_9(void);
-extern void isr_10(void);
-extern void isr_11(void);
-extern void isr_12(void);
-extern void isr_13(void);
-extern void isr_14(void);
-extern void isr_15(void);
-extern void isr_16(void);
-extern void isr_17(void);
+typedef void (*isr_stub)(void);
+
+extern isr_stub isr_stub_table[32];
 
 void idt_init()
 {
-    idt_install_exception(0, (void *)isr_0);
-    idt_install_exception(1, (void *)isr_1);
-    idt_install_exception(2, (void *)isr_2);
-    idt_install_exception(3, (void *)isr_3);
-    idt_install_exception(4, (void *)isr_4);
-    idt_install_exception(5, (void *)isr_5);
-    idt_install_exception(6, (void *)isr_6);
-    idt_install_exception(7, (void *)isr_7);
-    idt_install_exception(8, (void *)isr_8);
-    idt_install_exception(9, (void *)isr_9);
-    idt_install_exception(10, (void *)isr_10);
-    idt_install_exception(11, (void *)isr_11);
-    idt_install_exception(12, (void *)isr_12);
-    idt_install_exception(13, (void *)isr_13);
-    idt_install_exception(14, (void *)isr_14);
-    idt_install_exception(15, (void *)isr_15);
-    idt_install_exception(16, (void *)isr_16);
-    idt_install_exception(17, (void *)isr_17);
+    for (int vector = 0; vector < 32; vector++) {
+        idt_install_exception(
+                vector,
+                (void *)isr_stub_table[vector]
+        );
+    }
 
     idt_load(&system_idt_descriptor);
 }

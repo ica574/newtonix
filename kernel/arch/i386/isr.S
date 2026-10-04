@@ -37,6 +37,20 @@ ISR_ERROR       14
 ISR_ERROR       15
 ISR_ERROR       16
 ISR_ERROR       17
+ISR_NO_ERROR    18
+ISR_NO_ERROR    19
+ISR_NO_ERROR    20
+ISR_NO_ERROR    21
+ISR_NO_ERROR    22
+ISR_NO_ERROR    23
+ISR_NO_ERROR    24
+ISR_NO_ERROR    25
+ISR_NO_ERROR    26
+ISR_NO_ERROR    27
+ISR_NO_ERROR    28
+ISR_NO_ERROR    29
+ISR_NO_ERROR    30
+ISR_NO_ERROR    31
 
 isr_common:
     cld
@@ -61,5 +75,47 @@ isr_common:
 
     # Restore EIP, CS, and EFLAGS.
     iret
+
+.section .rodata
+.align 4
+
+.global isr_stub_table
+.type isr_stub_table, @object
+
+isr_stub_table:
+    .long isr_0
+    .long isr_1
+    .long isr_2
+    .long isr_3
+    .long isr_4
+    .long isr_5
+    .long isr_6
+    .long isr_7
+    .long isr_8
+    .long isr_9
+    .long isr_10
+    .long isr_11
+    .long isr_12
+    .long isr_13
+    .long isr_14
+    .long isr_15
+    .long isr_16
+    .long isr_17
+    .long isr_18
+    .long isr_19
+    .long isr_20
+    .long isr_21
+    .long isr_22
+    .long isr_23
+    .long isr_24
+    .long isr_25
+    .long isr_26
+    .long isr_27
+    .long isr_28
+    .long isr_29
+    .long isr_30
+    .long isr_31
+
+.size isr_stub_table, . - isr_stub_table
 
 .section .note.GNU-stack,"",@progbits
