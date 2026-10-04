@@ -88,6 +88,16 @@ extern void isr_4(void);
 extern void isr_5(void);
 extern void isr_6(void);
 extern void isr_7(void);
+extern void isr_8(void);
+extern void isr_9(void);
+extern void isr_10(void);
+extern void isr_11(void);
+extern void isr_12(void);
+extern void isr_13(void);
+extern void isr_14(void);
+extern void isr_15(void);
+extern void isr_16(void);
+extern void isr_17(void);
 
 void idt_init()
 {
@@ -99,6 +109,16 @@ void idt_init()
     idt_install_exception(5, (void *)isr_5);
     idt_install_exception(6, (void *)isr_6);
     idt_install_exception(7, (void *)isr_7);
+    idt_install_exception(8, (void *)isr_8);
+    idt_install_exception(9, (void *)isr_9);
+    idt_install_exception(10, (void *)isr_10);
+    idt_install_exception(11, (void *)isr_11);
+    idt_install_exception(12, (void *)isr_12);
+    idt_install_exception(13, (void *)isr_13);
+    idt_install_exception(14, (void *)isr_14);
+    idt_install_exception(15, (void *)isr_15);
+    idt_install_exception(16, (void *)isr_16);
+    idt_install_exception(17, (void *)isr_17);
 
     idt_load(&system_idt_descriptor);
 }
