@@ -26,8 +26,14 @@ stack_top:
 _start:
 	movl $stack_top, %esp
 
+    movl %eax, %esi
+    movl %ebx, %edi
+
 	# Call the global constructors.
 	call _init
+
+    pushl %edi # Multiboot information address
+    pushl %esi # Multiboot magic
 
 	# Transfer control to the main kernel.
 	call kernel_main

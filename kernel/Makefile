@@ -31,6 +31,7 @@ KERNEL_OBJS=\
 $(KERNEL_ARCH_OBJS) \
 kernel/kernel.o \
 kernel/panic.o \
+kernel/multiboot.o \
 
 OBJS=\
 $(ARCHDIR)/crti.o \
