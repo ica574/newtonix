@@ -6,6 +6,9 @@
 #include <kernel/tty.h>
 #include <kernel/multiboot.h>
 
+extern char __kernel_start();
+extern char __kernel_end();
+
 void kernel_main(uint32_t multiboot_magic, uint32_t multiboot_info_address)
 {
 	gdt_init(); // Initialises the GDT
@@ -19,4 +22,7 @@ void kernel_main(uint32_t multiboot_magic, uint32_t multiboot_info_address)
             multiboot_magic,
             multiboot_info_address
     );
+
+    printf("Kernel start: 0x%x\n", (unsigned int)__kernel_start);
+    printf("Kernel end: 0x%x\n", (unsigned int)__kernel_end);
 }
