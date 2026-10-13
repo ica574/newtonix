@@ -1,8 +1,8 @@
 #include <stdint.h>
 #include <string.h>
 
-#include <kernel/pmm.h>
 #include <kernel/panic.h>
+#include <kernel/pmm.h>
 
 #define PHYSICAL_PAGE_COUNT (1U << 20)
 #define BITMAP_SIZE (PHYSICAL_PAGE_COUNT / 8U)
@@ -66,7 +66,9 @@ void pmm_add_usable_region(uint64_t address, uint64_t length)
     if (length > PHYSICAL_ADDRESS_LIMIT - address)
     {
         region_end = PHYSICAL_ADDRESS_LIMIT;
-    } else {
+    }
+    else
+    {
         region_end = address + length;
     }
 
@@ -101,7 +103,9 @@ void pmm_reserve_region(uint64_t address, uint64_t length)
     if (length > PHYSICAL_ADDRESS_LIMIT - address)
     {
         region_end = PHYSICAL_ADDRESS_LIMIT;
-    } else {
+    }
+    else
+    {
         region_end = address + length;
     }
 

@@ -3,10 +3,6 @@
 
 #include <stdint.h>
 
-
-void multiboot_initialize(
-        uint32_t magic,
-        uint32_t information_address
-);
+void multiboot_initialize(uint32_t magic, uint32_t information_address);
 
 #endif

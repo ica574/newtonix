@@ -3,8 +3,8 @@
 
 #include <stdint.h>
 
-#define MULTIBOOT_BOOTLOADER_MAGIC  0x2BADB002
-#define MULTIBOOT_INFO_MEMORY_MAP   (1U << 6)
+#define MULTIBOOT_BOOTLOADER_MAGIC 0x2BADB002
+#define MULTIBOOT_INFO_MEMORY_MAP (1U << 6)
 
 typedef struct
 {

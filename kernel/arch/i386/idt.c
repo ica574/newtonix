@@ -4,8 +4,8 @@
 
 #include <stdint.h>
 
-#include <idt/idt.h>
 #include <gdt/gdt.h>
+#include <idt/idt.h>
 
 // Helper macros
 #define FLAG_SET(x, flag) x |= (flag)
@@ -65,12 +65,7 @@ void idt_enablegate(int interrupt)
 
 static void idt_install_exception(int vector, void *handler)
 {
-    idt_setgate(
-            vector,
-            handler,
-            GDT_CODE_SEGMENT,
-            IDT_FLAG_GATE_32BIT_INT | IDT_FLAG_RING0
-    );
+    idt_setgate(vector, handler, GDT_CODE_SEGMENT, IDT_FLAG_GATE_32BIT_INT | IDT_FLAG_RING0);
 
     idt_enablegate(vector);
 }
@@ -86,11 +81,9 @@ extern isr_stub isr_stub_table[32];
 
 void idt_init()
 {
-    for (int vector = 0; vector < 32; vector++) {
-        idt_install_exception(
-                vector,
-                (void *)isr_stub_table[vector]
-        );
+    for (int vector = 0; vector < 32; vector++)
+    {
+        idt_install_exception(vector, (void *)isr_stub_table[vector]);
     }
 
     idt_load(&system_idt_descriptor);

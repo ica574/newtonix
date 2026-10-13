@@ -6,8 +6,7 @@
 #include <kernel/panic.h>
 #endif
 
-__attribute__((__noreturn__))
-void abort(void) 
+__attribute__((__noreturn__)) void abort(void)
 {
 #if defined(__is_libk)
     // A kernel abort is fatal to the entire system

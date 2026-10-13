@@ -1,13 +1,12 @@
-#include <stdio.h>
 #include <stddef.h>
+#include <stdio.h>
 
 #include <kernel/panic.h>
 
-__attribute__((__noreturn__))
-void kernel_panic(const char *message) 
+__attribute__((__noreturn__)) void kernel_panic(const char *message)
 {
     // Disable maskable interrupts
-    __asm__ volatile ("cli");
+    __asm__ volatile("cli");
 
     // Add failsafe for null messages
     if (message == NULL)
@@ -19,8 +18,8 @@ void kernel_panic(const char *message)
     printf("\nKERNEL PANIC: %s\n", message);
 
     // Halt again if a non-maskable event wakes the CPU
-    for (;;) 
+    for (;;)
     {
-        __asm__ volatile ("hlt");
+        __asm__ volatile("hlt");
     }
 }

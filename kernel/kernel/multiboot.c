@@ -1,16 +1,18 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include <kernel/pmm.h>
-#include <kernel/panic.h>
 #include <kernel/multiboot.h>
+#include <kernel/panic.h>
+#include <kernel/pmm.h>
 #include <multiboot/multiboot.h>
 
 extern char __kernel_start[];
 extern char __kernel_end[];
 
-void multiboot_initialize(uint32_t multiboot_magic, uint32_t multiboot_info_address) {
-    if (multiboot_magic != MULTIBOOT_BOOTLOADER_MAGIC) {
+void multiboot_initialize(uint32_t multiboot_magic, uint32_t multiboot_info_address)
+{
+    if (multiboot_magic != MULTIBOOT_BOOTLOADER_MAGIC)
+    {
         kernel_panic("Invalid Multiboot bootloader magic");
     }
 
@@ -18,7 +20,8 @@ void multiboot_initialize(uint32_t multiboot_magic, uint32_t multiboot_info_addr
 
     printf("Multiboot flags: 0x%x\n", (unsigned int)boot_info->flags);
 
-    if ((boot_info->flags & MULTIBOOT_INFO_MEMORY_MAP) == 0) {
+    if ((boot_info->flags & MULTIBOOT_INFO_MEMORY_MAP) == 0)
+    {
         kernel_panic("Multiboot memory map unavailable");
     }
 
@@ -40,8 +43,7 @@ void multiboot_initialize(uint32_t multiboot_magic, uint32_t multiboot_info_addr
         }
 
         const multiboot_memory_map_entry *entry =
-            (const multiboot_memory_map_entry *)
-            (boot_info->mmap_addr + offset);
+            (const multiboot_memory_map_entry *)(boot_info->mmap_addr + offset);
 
         if (entry->size < 20)
         {
@@ -88,10 +90,7 @@ void multiboot_initialize(uint32_t multiboot_magic, uint32_t multiboot_info_addr
     uint64_t kernel_start = (uint32_t)__kernel_start;
     uint64_t kernel_end = (uint32_t)__kernel_end;
 
-    pmm_reserve_region(
-            kernel_start,
-            kernel_end - kernel_start
-    );
-    
+    pmm_reserve_region(kernel_start, kernel_end - kernel_start);
+
     printf("Free physical pages: %x\n", (unsigned int)pmm_count_free_pages());
 }

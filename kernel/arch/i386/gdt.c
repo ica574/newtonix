@@ -56,20 +56,16 @@ typedef enum
 } GDT_FLAGS; // Segment descriptor properties
 
 // Helper macros
-#define GDT_LIMIT_LOW(limit) ((limit) & 0xFFFF)
-#define GDT_BASE_LOW(base) ((base) & 0xFFFF)
+#define GDT_LIMIT_LOW(limit) ((limit)&0xFFFF)
+#define GDT_BASE_LOW(base) ((base)&0xFFFF)
 #define GDT_BASE_MIDDLE(base) (((base) >> 16) & 0xFF)
-#define GDT_FLAGS_LIMIT_HI(limit, flags) ((((limit) >> 16) & 0xF) | ((flags) & 0xF0))
+#define GDT_FLAGS_LIMIT_HI(limit, flags) ((((limit) >> 16) & 0xF) | ((flags)&0xF0))
 #define GDT_BASE_HIGH(base) (((base) >> 24) & 0xFF)
 
-#define SEGMENT_DESCRIPTOR(base, limit, access, flags) \
-    {                                                  \
-        GDT_LIMIT_LOW(limit),                          \
-            GDT_BASE_LOW(base),                        \
-            GDT_BASE_MIDDLE(base),                     \
-            access,                                    \
-            GDT_FLAGS_LIMIT_HI(limit, flags),          \
-            GDT_BASE_HIGH(base)                        \
+#define SEGMENT_DESCRIPTOR(base, limit, access, flags)                                             \
+    {                                                                                              \
+        GDT_LIMIT_LOW(limit), GDT_BASE_LOW(base), GDT_BASE_MIDDLE(base), access,                   \
+            GDT_FLAGS_LIMIT_HI(limit, flags), GDT_BASE_HIGH(base)                                  \
     } // Splits attributes per the x86 definition of a segment descriptor
 
 segment_descriptor system_gdt[] = {
@@ -77,22 +73,23 @@ segment_descriptor system_gdt[] = {
     SEGMENT_DESCRIPTOR(0, 0, 0, 0),
 
     // Kernel 32-bit code segment
-    SEGMENT_DESCRIPTOR(0,
-                       0xFFFFF,
-                       GDT_ACCESS_PRESENT | GDT_ACCESS_RING0 | GDT_ACCESS_CODE_SEGMENT | GDT_ACCESS_CODE_READABLE,
+    SEGMENT_DESCRIPTOR(0, 0xFFFFF,
+                       GDT_ACCESS_PRESENT | GDT_ACCESS_RING0 | GDT_ACCESS_CODE_SEGMENT |
+                           GDT_ACCESS_CODE_READABLE,
                        GDT_FLAG_32BIT | GDT_FLAG_GRANULARITY_4K),
 
     // Kernel 32-bit data segment
-    SEGMENT_DESCRIPTOR(0,
-                       0xFFFFF,
-                       GDT_ACCESS_PRESENT | GDT_ACCESS_RING0 | GDT_ACCESS_DATA_SEGMENT | GDT_ACCESS_DATA_WRITEABLE,
+    SEGMENT_DESCRIPTOR(0, 0xFFFFF,
+                       GDT_ACCESS_PRESENT | GDT_ACCESS_RING0 | GDT_ACCESS_DATA_SEGMENT |
+                           GDT_ACCESS_DATA_WRITEABLE,
                        GDT_FLAG_32BIT | GDT_FLAG_GRANULARITY_4K),
 
 };
 
 gdt_descriptor system_gdt_descriptor = {sizeof(system_gdt) - 1, system_gdt};
 
-void __attribute__((cdecl)) gdt_load(gdt_descriptor *descriptor, uint16_t code_segment, uint16_t data_segment);
+void __attribute__((cdecl))
+gdt_load(gdt_descriptor *descriptor, uint16_t code_segment, uint16_t data_segment);
 
 void gdt_init()
 {

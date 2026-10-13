@@ -6,12 +6,13 @@
 #define EOF (-1)
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-int printf(const char* __restrict, ...);
-int putchar(int);
-int puts(const char*);
+    int printf(const char *__restrict, ...);
+    int putchar(int);
+    int puts(const char *);
 
 #ifdef __cplusplus
 }
