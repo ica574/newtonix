@@ -3,6 +3,7 @@ FROM debian:bookworm-slim
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends \
         binutils-i686-linux-gnu \
+        clang-format \
         gcc-i686-linux-gnu \
         grub-common \
         grub-pc-bin \

@@ -28,8 +28,9 @@ export PREFIX BOOTDIR LIBDIR INCLUDEDIR SYSROOT
 HEADER_SOURCES := $(shell find libc/include kernel/include -type f)
 LIBC_SOURCES := $(shell find libc -type f \( -name '*.c' -o -name '*.S' \))
 KERNEL_SOURCES := $(shell find kernel -type f \( -name '*.c' -o -name '*.S' -o -name '*.ld' \))
+FORMAT_SOURCES := $(shell find libc kernel -type f \( -name '*.c' -o -name '*.h' \))
 
-.PHONY: setup build run run-vga clean clean-internal
+.PHONY: setup build run run-vga format clean clean-internal
 
 setup:
 	docker build --platform linux/amd64 \
@@ -49,6 +50,9 @@ run-vga: build
 		-v "$(CURDIR):/work" -w /work $(TOOLCHAIN_IMAGE) \
 		qemu-system-i386 -cdrom newtonix.iso -boot d \
 		-display curses -serial none -no-reboot
+
+format: setup
+	$(DOCKER_RUN) clang-format -i $(FORMAT_SOURCES)
 
 build/.headers.stamp: $(HEADER_SOURCES) libc/Makefile kernel/Makefile
 	mkdir -p build
