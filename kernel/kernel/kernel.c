@@ -6,8 +6,8 @@
 #include <kernel/tty.h>
 #include <kernel/multiboot.h>
 
-extern char __kernel_start();
-extern char __kernel_end();
+extern char __kernel_start[];
+extern char __kernel_end[];
 
 void kernel_main(uint32_t multiboot_magic, uint32_t multiboot_info_address)
 {
