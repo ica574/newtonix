@@ -4,6 +4,7 @@
 #include <gdt/gdt.h>
 #include <idt/idt.h>
 #include <kernel/multiboot.h>
+#include <kernel/pmm.h>
 #include <kernel/tty.h>
 
 extern char __kernel_start[];
@@ -20,6 +21,10 @@ void kernel_main(uint32_t multiboot_magic, uint32_t multiboot_info_address)
 
     multiboot_initialize(multiboot_magic, multiboot_info_address);
 
-    printf("Kernel start: 0x%x\n", (unsigned int)__kernel_start);
-    printf("Kernel end: 0x%x\n", (unsigned int)__kernel_end);
+    printf("Kernel initialisation complete!\n");
+
+    for (;;)
+    {
+        __asm__ volatile("hlt");
+    }
 }

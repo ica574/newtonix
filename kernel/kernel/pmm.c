@@ -138,3 +138,38 @@ uint32_t pmm_count_free_pages(void)
 
     return free_pages;
 }
+
+uint32_t pmm_allocate_page(void)
+{
+    for (uint32_t page = 0; page < PHYSICAL_PAGE_COUNT; page++)
+    {
+        /* If the page is free */
+        if (!is_page_used(page))
+        {
+            mark_page_used(page);
+            return page * PAGE_SIZE; // Return the physical address of the page
+        }
+    }
+
+    kernel_panic("Out of physical memory");
+}
+
+void pmm_free_page(uint32_t address)
+{
+    /* Reject address that is not divisible by PAGE_SIZE */
+    if (address % PAGE_SIZE)
+    {
+        kernel_panic("Impossible page address");
+    }
+
+    uint32_t page = address / PAGE_SIZE;
+
+    /* Reject page if it is already free */
+    if (!is_page_used(page))
+    {
+        kernel_panic("Page already free");
+    }
+
+    /* Mark the page free */
+    mark_page_free(page);
+}
