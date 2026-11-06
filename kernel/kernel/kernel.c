@@ -4,11 +4,8 @@
 #include <gdt/gdt.h>
 #include <idt/idt.h>
 #include <kernel/multiboot.h>
-#include <kernel/pmm.h>
+#include <kernel/paging.h>
 #include <kernel/tty.h>
-
-extern char __kernel_start[];
-extern char __kernel_end[];
 
 void kernel_main(uint32_t multiboot_magic, uint32_t multiboot_info_address)
 {
@@ -20,6 +17,11 @@ void kernel_main(uint32_t multiboot_magic, uint32_t multiboot_info_address)
     printf("Welcome to Newtonix!\n");
 
     multiboot_initialize(multiboot_magic, multiboot_info_address);
+
+    paging_initialise();
+
+    printf("Paging structures initialised.\n");
+    printf("Paging enabled.\n");
 
     printf("Kernel initialisation complete!\n");
 
