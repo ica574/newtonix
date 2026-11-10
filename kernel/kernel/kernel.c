@@ -18,9 +18,6 @@ void kernel_main(uint32_t multiboot_magic, uint32_t multiboot_info_address)
 
     multiboot_initialize(multiboot_magic, multiboot_info_address);
 
-    paging_initialise();
-
-    printf("Paging structures initialised.\n");
     printf("Paging enabled.\n");
 
     printf("Kernel initialisation complete!\n");
