@@ -8,7 +8,7 @@
 #define PAGE_ENTRY_COUNT 1024U
 
 #define PAGE_PRESENT (1U << 0)
-#define PAGE_WRITEABLE (1U << 1)
+#define PAGE_WRITABLE (1U << 1)
 
 #define PAGE_TABLE_POOL_SIZE 16U
 
@@ -39,10 +39,10 @@ void paging_initialise(void)
     {
         uint32_t physical_address = index * PAGE_SIZE;
 
-        first_page_table[index] = physical_address | PAGE_PRESENT | PAGE_WRITEABLE;
+        first_page_table[index] = physical_address | PAGE_PRESENT | PAGE_WRITABLE;
     }
 
-    page_directory[0] = (uint32_t)first_page_table | PAGE_PRESENT | PAGE_WRITEABLE;
+    page_directory[0] = (uint32_t)first_page_table | PAGE_PRESENT | PAGE_WRITABLE;
 
     paging_enable((uint32_t)page_directory);
 }
@@ -78,7 +78,7 @@ void paging_map_page(uint32_t virtual_address, uint32_t physical_address, uint32
 
         page_tables[directory_index] = page_table;
 
-        page_directory[directory_index] = (uint32_t)page_table | PAGE_PRESENT | PAGE_WRITEABLE;
+        page_directory[directory_index] = (uint32_t)page_table | PAGE_PRESENT | PAGE_WRITABLE;
     }
 
     if (page_table[table_index] & PAGE_PRESENT)

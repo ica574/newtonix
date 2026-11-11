@@ -25,7 +25,7 @@ typedef struct
 typedef enum
 {
     GDT_ACCESS_CODE_READABLE = 0x02,
-    GDT_ACCESS_DATA_WRITEABLE = 0x02,
+    GDT_ACCESS_DATA_WRITABLE = 0x02,
 
     GDT_ACCESS_CODE_CONFORMING = 0x04,
     GDT_ACCESS_DATA_DIRECTION_NORMAL = 0x00,
@@ -81,7 +81,7 @@ segment_descriptor system_gdt[] = {
     // Kernel 32-bit data segment
     SEGMENT_DESCRIPTOR(0, 0xFFFFF,
                        GDT_ACCESS_PRESENT | GDT_ACCESS_RING0 | GDT_ACCESS_DATA_SEGMENT |
-                           GDT_ACCESS_DATA_WRITEABLE,
+                           GDT_ACCESS_DATA_WRITABLE,
                        GDT_FLAG_32BIT | GDT_FLAG_GRANULARITY_4K),
 
 };

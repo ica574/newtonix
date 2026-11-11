@@ -3,7 +3,7 @@
 #ifndef KERNEL_PAGING_H
 #define KERNEL_PAGING_H
 
-#define PAGING_FLAG_WRITEABLE (1U << 1)
+#define PAGING_FLAG_WRITABLE (1U << 1)
 
 void paging_initialise(void);
 
